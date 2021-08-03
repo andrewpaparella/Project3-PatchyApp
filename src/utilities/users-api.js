@@ -14,3 +14,8 @@ export function login(credentials) {
 export function checkToken() {
 	return sendRequest(`${BASE_URL}/check-token`);
 }
+
+export function addComment(comment){
+    return sendRequest(`${BASE_URL}/${comment.userId}/comments`, "POST", comment);
+}
+

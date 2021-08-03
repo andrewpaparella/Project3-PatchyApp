@@ -55,24 +55,16 @@ async function deletePatch(req, res){
     res.status(200).json(deletedPatch)
 }
 
-async function update2(req,res){
-    // const patch = await Patchnote.findById(req.params.id, function(err, patch){
-    //     patch.comments.find(id:req.params.id2, req.body, {new:true})
-    //     patch.save(function(err) {
-    //         res.status(200).json(patch)
-    //     })
-    // })
-
-    // const patch = await Patchnote.findById(req.params.id)
-    // const comment = await patch.comment.findByIdAndUpdate(req.params.id2, req.body, {new:true})
-    // res.status(200).json(comment)
-
-    // const patch = await Patchnote.findById(req.params.id)
-    // const comment = await patch.comment.findById(req.params.id2)
-    // const updatedComment = await comment.updateOne({ body: req.body}, {new: true});
-    // res.status(200).json(updatedComment)
-
-    const patch = await Patchnote.findByID(req.params.id)
-    const comment = patch.comment.find(id => id === req.params.id2)
-    console.log(comment)
+async function update2(req, res){
+    const patch = await Patchnote.findById(req.params.id)
+    const oldComment = patch.comments.find((comment) => {
+        return req.params.id2 == comment._id
+    })
+    const index = patch.comments.indexOf(oldComment)
+    const updatedComment = patch.comments.create(req.body)
+    console.log(updatedComment) 
+    patch.comments.splice(index, 1, updatedComment)
+    patch.save(function(err) {
+        res.status(200).json(patch)
+    })
 }
