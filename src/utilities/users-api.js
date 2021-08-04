@@ -15,7 +15,15 @@ export function checkToken() {
 	return sendRequest(`${BASE_URL}/check-token`);
 }
 
+export function getAll(){
+    return sendRequest(BASE_URL)
+}
+
 export function addComment(comment){
     return sendRequest(`${BASE_URL}/${comment.userId}/comments`, "POST", comment);
+}
+
+export function deleteOne(userId, commentId){
+	return sendRequest(`${BASE_URL}/${userId}/comments/${commentId}`, 'DELETE')
 }
 

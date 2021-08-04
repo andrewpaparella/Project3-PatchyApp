@@ -12,6 +12,7 @@ import * as patchAPI from '../../utilities/patchnotes-api';
 import PatchDetailsPage from '../PatchDetailsPage/PatchDetailsPage';
 import EditPatchPage from '../EditPatchPage/EditPatchPage';
 import EditCommentPage from '../EditCommentPage/EditCommentPage';
+import * as userAPI from '../../utilities/users-api'
 
 function App() {
 	const [user, setUser] = useState(getUser());
@@ -21,11 +22,7 @@ function App() {
 
 	useEffect(() => {
 		history.push('/patchnotes')
-	}, [patchNotes, comments, history])
-
-	// useEffect(() => {
-	// 	history.push('/patchnotes')
-	// }, [comments, history])
+	}, [patchNotes, history])
 
 	useEffect(() => {
 		async function getPatches(){
@@ -33,6 +30,14 @@ function App() {
 			setPatchNotes(patches)
 		} 
 		getPatches();
+	},[]);
+
+	useEffect(() => {
+		async function getUsers(){
+			const users = await userAPI.getAll();
+			setUser(users)
+		} 
+		getUsers();
 	},[]);
 
 	useEffect(() => {
@@ -56,8 +61,8 @@ function App() {
 
 	async function handleUpdateComment(patch, comment){
 		const updatedComment = await patchAPI.updateComment(patch, comment);
-		const newCommentsArray = patchNotes.comments.map(c => c._id === updatedComment._id ? updatedComment : c );
-		setPatchNotes(newCommentsArray)
+		// const newCommentsArray = patchNotes.comments.map(c => c._id === updatedComment._id ? updatedComment : c );
+		setPatchNotes(updatedComment)
 	}
 	useEffect(() => {
 		async function getComments(){
@@ -80,7 +85,7 @@ function App() {
 							<NewPatchNotesPage setPatchNotes={setPatchNotes} patchNotes={patchNotes} />
 						</Route>
 						<Route exact path='/user'>
-							<UserProfilePage />
+							<UserProfilePage user={user} comments={comments} setComments={setComments} />
 						</Route>
 						<Route exact path='/details'>
 							<PatchDetailsPage user={user} setComments={setComments} comments={comments} setPatchNotes={setPatchNotes} patchNotes={patchNotes} />

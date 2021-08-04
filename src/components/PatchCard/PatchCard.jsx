@@ -4,6 +4,19 @@ import PatchCommentsForm from '../PatchCommentsForm/PatchCommentsForm';
 import PatchComments from '../PatchComments/PatchComments';
 
 function PatchCard({ patch, user, setComments, comments, setPatchNotes, patchNotes }){
+
+	// useEffect(() => {
+	// 	history.push('/details')
+	// }, [comments, history])
+
+	// <Link
+    //         to={{
+    //             pathname: '/details',
+    //             state: { patch },
+    //         }}
+    //         />
+             
+
     return (
         <>
         <div className='panel panel-default'>

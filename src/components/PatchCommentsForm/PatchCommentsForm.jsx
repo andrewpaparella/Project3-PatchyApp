@@ -1,3 +1,4 @@
+import { compareSync } from 'bcrypt';
 import {useState} from 'react';
 import * as patchNotesAPI from '../../utilities/patchnotes-api';
 
@@ -12,8 +13,8 @@ export default function PatchCommentsForm({comments, setComments, user, patch}) 
     })
 
     async function handleAddComments(newCommentData){
+        console.log('patch', patch)
         const newComment = await patchNotesAPI.addComment(newCommentData);
-        console.log(newComment)
         setComments([...comments, newComment])
     }
     

@@ -18,7 +18,11 @@ function NavBar({ user, setUser }) {
 			<Link to='/patchnotes/new'>Post New Patch</Link>
 			&nbsp; | &nbsp;
 			<span>
-				<b>Welcome, {user.name}</b>
+				<b>Welcome, <Link to={{
+            pathname:'/user',
+            state: {user},
+        }}
+        >{user.name}</Link></b>
 			</span>
 			&nbsp; | &nbsp;
 			<Link to='' onClick={handleLogOut}>

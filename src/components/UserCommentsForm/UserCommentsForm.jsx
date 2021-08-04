@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import * as usersAPI from '../../utilities/patchnotes-api';
+import * as usersAPI from '../../utilities/users-api';
 
 
 export default function UserCommentsForm({comments, setComments, user}) {
@@ -8,12 +8,11 @@ export default function UserCommentsForm({comments, setComments, user}) {
         body: '',
         date: Date.now(),
         userId: user._id,
-        user: user
     })
 
     async function handleAddComments(newCommentData){
+        console.log('user', user)
         const newComment = await usersAPI.addComment(newCommentData);
-        console.log(newComment)
         setComments([...comments, newComment])
     }
     

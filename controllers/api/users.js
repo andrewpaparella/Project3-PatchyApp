@@ -6,7 +6,47 @@ module.exports = {
 	create,
 	login,
 	checkToken,
+	show,
+	createComment,
+	updateComment,
+	deleteComment
 };
+
+async function show(req,res){
+    const user = await User.findById(req.params.id)
+        res.json(user)
+}
+
+async function createComment(req,res){
+    User.findById(req.params.id, function(err, user) {
+		user.comments.push(req.body);
+        user.save(function(err) {
+            res.json(user)
+        })
+    })
+}
+
+async function updateComment(req, res){
+	const user = await User.findById(req.params.id)
+    const oldComment = user.comments.find((comment) => {
+        return req.params.id2 == comment._id
+    })
+    const index = user.comments.indexOf(oldComment)
+    const updatedComment = user.comments.create(req.body)
+    console.log(updatedComment) 
+    user.comments.splice(index, 1, updatedComment)
+    user.save(function(err) {
+        res.status(200).json(user)
+    })
+}
+
+async function deleteComment(req, res){
+    const user = await User.findById(req.params.id)
+    const comment = await user.comments.remove(req.params.id2)
+    user.save(function(err) {
+        res.status(200)
+    })
+}
 
 async function create(req, res) {
 	try {
